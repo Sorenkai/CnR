@@ -168,6 +168,22 @@ CMD:setalevel(playerid,params[])
 	return 1;
 }
 
+CMD:giveweapon(playerid,params[])
+{
+	new targetid, targetname[MAX_PLAYER_NAME], pName[MAX_PLAYER_NAME], tmsg[144], pmsg[144], wepid, ammo;
+	GetPlayerName(targetid, targetname, sizeof(targetname));
+	GetPlayerName(playerid, playername, sizeof(playername));
+	if(PlayerInfo[playerid][pAdmin] < 3) return SendClientMessage(playerid, COLOR_RED, "ERROR: Your admin level is not high enough!);
+	if(sscanf(params, "iii", targetid, wepid, ammo)) return SendClientMessage(playerid, COLOR_SYNTAX, "SYNTAX: /giveweapon <playerid> <weaponid> <ammo>");
+	if(PlayerInfo[targetid][pAdmin] > PlayerInfo[playerid][pAdmin]) return SendClientMessage(playerid, COLOR_RED, "ERROR: You can not execute commands on players with a higher level.");
+	GivePlayerWeapon(playerid, wepid, ammo);
+	format(pmsg, sizeof(pmsg), "[Admin] You have given %s(%i) weapon: %i with %i rounds of ammo", targetname,targetid,wepid,ammo);
+	format(tmsg, sizeof(tmsg), "[Admin] %s(%i) gave you weapon: %i with %i rounds of ammo", pName, playerid, wepidm, ammo);
+	SendClientMessage(playerid, COLOR_GREEN, pmsg);
+	SendClientMessage(targetid, COLOR_GREEN, tmsg);
+	return 1;
+}
+
 halt(seconds)
 {
 	new _newTime[4], _oldTime[4];

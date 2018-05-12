@@ -452,9 +452,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				//INI_WriteInt(File, "Kills", 0);
 				//INI_WriteInt(File, "Deaths", 0);
 				//INI_Close(File);
-				new query[265], pName[MAX_PLAYER_NAME], hashpass[128];
+				new query[265], pName[MAX_PLAYER_NAME], hashpass[129];
 				GetPlayerName(playerid, pName, sizeof(pName));
-				WP_Hash(hashpass, 128, inputtext);
+				WP_Hash(hashpass, 129, inputtext);
 				format(query, sizeof(query),"INSERT INTO users (player, password) VALUES ('%q', '%s')", pName, hashpass);
 				db_query(database, query);
 
@@ -469,13 +469,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			if(!response) return Kick(playerid);
 			if(response)
 			{	
-				new buf[128], DBResult: Result, query[256], pName[MAX_PLAYER_NAME];
+				new buf[129], DBResult: Result, query[256], pName[MAX_PLAYER_NAME];
 				GetPlayerName(playerid, pName, sizeof(pName));
 				format(query, sizeof(query), "SELECT password FROM users WHERE player = '%q'",pName);
 				Result = db_query(database, query);
-				db_get_field_assoc(Result, "password", PlayerInfo[playerid][pPass], 128);
+				db_get_field_assoc(Result, "password", PlayerInfo[playerid][pPass], 129);
 				db_free_result(Result);
-				WP_Hash(buf,128,inputtext);
+				WP_Hash(buf,129,inputtext);
 				if(strcmp(buf, PlayerInfo[playerid][pPass]))
 				{
 					format(query, sizeof(query), "SELECT * FROM users WHERE player = '%q' LIMIT 1",pName);
